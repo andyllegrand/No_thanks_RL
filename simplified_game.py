@@ -18,6 +18,9 @@ Game state stored in vector. Index key:
 [39]: Over flag
 """
 
+#device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
+device = torch.device("cpu")
+
 num_players = 4
 
 min_card_num = 3
@@ -38,7 +41,7 @@ active_games    = lambda games: games[torch.where(over_flags(games) == 0)]
 over_games      = lambda games: games[torch.where(over_flags(games) == 1)]
 
 def initialize_games(num_games):
-  game = torch.zeros((num_games, num_players + max_card_num - min_card_num + 3))
+  game = torch.zeros((num_games, num_players + max_card_num - min_card_num + 3)).to(device)
   game[:, 1:num_players+1] = starting_chips
   return game
 
@@ -130,7 +133,6 @@ def play_games(players, num_games, verbose = False):
 
   # loop through playing turns. All games are synchronized to allow for vectorization
   while True:
-    print("Turn count: ", turn_count)
     player_num = turn_count % num_players + 1
     #player_games = prepare_state_for_player(games, player_num)
     player_games = games

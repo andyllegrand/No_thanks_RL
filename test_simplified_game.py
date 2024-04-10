@@ -144,8 +144,8 @@ class test_game_simplified(unittest.TestCase):
     assert torch.equal(over_flags(games), expected)
 
   def test_play_games(self):
-    num_games = 10000
-    players = [Random_Agent(), Random_Agent(), Random_Agent(), Random_Agent()]
+    num_games = 1000
+    players = [Always_Pass_Agent(), Random_Agent(), Random_Agent(), Random_Agent()]
     win_counts = play_games(players, num_games, verbose=False)
     print(win_counts)
 
